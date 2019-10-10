@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         open_button.setOnClickListener {
             val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "*/*"
+            intent.type = "*/csv*"
             startActivityForResult(intent, 7)
         }
     }
@@ -42,8 +42,11 @@ class MainActivity : AppCompatActivity() {
             7 ->
                 if (resultCode == Activity.RESULT_OK) {
                     val pathHolder = data!!.data!!.path
+                    //path of csv files
                    csvReader().open(pathHolder!!){
                        readAllAsSequence().forEach { row ->
+                           //each row contains name and number
+                          // we put them in a map and run add contact method for each map index
                           val map = mapOf(row[0] to row[1])
                            mapsOfContacts.add(map)
                        } }
